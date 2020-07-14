@@ -15,6 +15,7 @@ imagebot.on('message', message => {
             message.delete();
             if(!imagebot.channels.cache.get('732601838842675283')) {
                 message.delete();
+                message.channels.send("You can only use this command in Photo Channel");
                 return;
             }
             if(!args[1]){
