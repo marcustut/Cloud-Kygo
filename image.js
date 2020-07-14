@@ -12,8 +12,7 @@ imagebot.on('message', message => {
     let args = message.content.substring(PREFIX.length).split(" ");
     switch (args[0]) {
         case 'search':
-            message.delete();
-            if(!imagebot.channels.cache.get('732601838842675283')) {
+            if(!imagebot.channels.cache.get('732201985889140767')) {
                 message.delete();
                 message.channels.send("You can only use this command in Photo Channel");
                 return;
@@ -43,7 +42,7 @@ imagebot.on('message', message => {
                     return;
                 }
                 //RESULT
-                let photoChannel = imagebot.channels.cache.get('732601838842675283');
+                let photoChannel = imagebot.channels.cache.get('732201985889140767');
                     const photoEmbed = new MessageEmbed()
                     .setImage( urls[Math.floor(Math.random() * urls.length)])
                     .setColor(0xE5C918)
