@@ -1,7 +1,9 @@
 const { Client, MessageEmbed } = require('discord.js');
 const imagebot = new Client();
+
 const cheerio = require('cheerio');
 const request = require('request');
+
 const PREFIX = process.env.prefix;
 
 imagebot.on('ready', () => {
@@ -10,19 +12,15 @@ imagebot.on('ready', () => {
 
 imagebot.on('message', message => {
     let args = message.content.substring(PREFIX.length).split(" ");
+
     switch (args[0]) {
         case 'search':
+            message.delete();
             if(!imagebot.channels.cache.get('732201985889140767')) {
-                message.delete();
                 message.channels.send("You can only use this command in Photo Channel");
                 return;
-            }
-            if(!args[1]){
-                const whatSearchEmbed = new MessageEmbed()
-                .setDescription("What do you want me to search?")
-                message.reply (whatSearchEmbed);
-                return;
             };
+
             var options = {
                 url: "http://results.dogpile.com/serp?qc=images&q=pinterest" + args[1],
                 method: "GET",
@@ -31,12 +29,17 @@ imagebot.on('message', message => {
                     "User-Agent": "Chrome"
                 }
             };
+
             request(options, function(error, response, responseBody) {
+        
                 if (error) {
                     return;
                 }
+        
                 $ = cheerio.load(responseBody);
+         
                 var links = $(".image a.link");
+        
                 var urls = new Array(links.length).fill(0).map((v, i) => links.eq(i).attr("href"));
                 if (!urls.length) {
                     return;
