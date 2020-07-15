@@ -31,9 +31,6 @@ main.on('message', message =>{
             announceChannel.send(announceEmbed);
             break;
         case 'poll':
-            const nopermEmbed = new MessageEmbed()
-            .setAuthor(message.author.username, message.author.displayAvatarURL())
-            .setDescription("You don't have permission to use $poll");
             if(!message.member.roles.cache.get('730940617030500379')){
                 message.delete();
                 message.channel.send(nopermEmbed);
@@ -50,9 +47,6 @@ main.on('message', message =>{
             pollChannel.send(pollEmbed);
             break;
         case "event":
-            const nopermEmbed = new MessageEmbed()
-            .setAuthor(message.author.username, message.author.displayAvatarURL())
-            .setDescription("You don't have permission to use $event");
             if(!message.member.roles.cache.get('730940617030500379')){
                 message.delete();
                 message.channel.send(nopermEmbed);
