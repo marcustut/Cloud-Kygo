@@ -16,14 +16,13 @@ imagebot.on('message', message => {
     switch (args[0]) {
         case 'search':
             message.delete();
-            if(!imagebot.channels.cache.get('732201985889140767')){
-                return;
-            };
             if(!args[1]){
                 return;
             };
 
-            var options = {
+            if(!imagebot.channels.cache.get('732201985889140767')){
+                return;
+            } var options = {
                 url: "http://results.dogpile.com/serp?qc=images&q=pinterest" + args[1],
                 method: "GET",
                 headers: {
