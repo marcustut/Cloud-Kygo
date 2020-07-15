@@ -4,7 +4,7 @@ const imagebot = new Client();
 const cheerio = require('cheerio');
 const request = require('request');
 
-const PREFIX = process.env.prefix;
+const PREFIX = '$';
 
 imagebot.on('ready', () => {
     console.log("IMAGE ONLINE");
@@ -16,8 +16,10 @@ imagebot.on('message', message => {
     switch (args[0]) {
         case 'search':
             message.delete();
-            if(!imagebot.channels.cache.get('732201985889140767')) {
-                message.channels.send("You can only use this command in Photo Channel");
+            if(!imagebot.channels.cache.get('732201985889140767')){
+                return;
+            };
+            if(!args[1]){
                 return;
             };
 
@@ -29,7 +31,6 @@ imagebot.on('message', message => {
                     "User-Agent": "Chrome"
                 }
             };
-
             request(options, function(error, response, responseBody) {
         
                 if (error) {
@@ -45,13 +46,13 @@ imagebot.on('message', message => {
                     return;
                 }
                 //RESULT
-                let photoChannel = imagebot.channels.cache.get('732201985889140767');
-                    const photoEmbed = new MessageEmbed()
+                let catsChannel = imagebot.channels.cache.get('732201985889140767');
+                    const catsEmbed = new MessageEmbed()
                     .setImage( urls[Math.floor(Math.random() * urls.length)])
                     .setColor(0xE5C918)
                     .setFooter(`${message.author.username}`)
                     .setTimestamp();
-                    photoChannel.send(photoEmbed);
+                    catsChannel.send(catsEmbed);
             });
             break;
     }

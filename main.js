@@ -1,7 +1,7 @@
 const { Client, MessageEmbed }= require('discord.js');
 const main = new Client;
 
-const PREFIX = process.env.prefix;
+const PREFIX = '$';
 
 main.once('ready', () =>{
     console.log("KYGO ARE ONLINE!");
