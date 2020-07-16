@@ -1,12 +1,14 @@
-const { Client }= require('discord.js');
+const { Client, MessageEmbed }= require('discord.js');
 const main = new Client;
+
+const cheerio = require('cheerio');
+const request = require('request');
 
 const PREFIX = process.env.prefix;
 
 var announce = require('./commands/announce')
 var poll = require('./commands/poll')
 var event = require('./commands/event')
-// var image = require('./commands/image')
 
 main.once('ready', () =>{
     console.log("KYGO ARE ONLINE!");
@@ -21,12 +23,16 @@ main.on('message', message =>{
             return message.channel.send("You don't have permission");
         }
         if(!args.length){
-            return message.channel.send("What do you want to announce?");
+            return message.channel.send(process.env.prefix + "announce <channel> <message>");
         } else {
-            let announceWhosend = message.author.username;
-            let announceArgs = args.slice(0).join(" ");
-            let announceChannel = main.channels.cache.get('730940617034825777');
-            return announceChannel.send(announce.announce(announceArgs, announceWhosend));
+            let announceWhosend = message.author.username
+            let announceArgs = args.slice(1).join(" ")
+            let announceChannel = message.mentions.channels.first()
+            if(!announceChannel){
+                return message.channel.send("I believe that channel did not exist!")
+            } else {
+                return announceChannel.send(announce.announce(announceArgs, announceWhosend))
+            }
         }
     }
     if(command === 'poll'){
@@ -38,8 +44,12 @@ main.on('message', message =>{
         } else {
             let pollWhosend = message.author.username;
             let pollArgs = args.slice(0).join(" ");
-            let pollChannel = main.channels.cache.get('730957158044401704');
-            return pollChannel.send(poll.poll(pollArgs, pollWhosend));
+            let pollChannel = message.mentions.channels.first()
+            if(!pollChannel){
+                return message.channel.send("I believe that channel did not exist")
+            } else {
+                return pollChannel.send(poll.poll(pollArgs, pollWhosend));
+            }
         }
     }
     if(command === 'event'){
@@ -51,8 +61,49 @@ main.on('message', message =>{
         } else {
             let eventWhosend = message.author.username;
             let eventArgs = args.slice(0).join(" ");
-            let eventChannel = main.channels.cache.get('730940617181364274');
-            return eventChannel.send(event.event(eventArgs, eventWhosend));
+            let eventChannel = message.mentions.channels.first()
+            if(!eventChannel){
+                return message.channel.send("I believe that channel did not exist")
+            } else {
+                return eventChannel.send(event.event(eventArgs, eventWhosend));
+            }
+        }
+    }
+    if(command === 'search'){
+        if(!args.length){
+            return message.channel.send("What image you want me to search?");
+        } else {
+            let eventArgs = args.slice(0).join(" ");
+            var options = {
+                url: "http://results.dogpile.com/serp?qc=images&q=pinterest" + searchthis,
+                method: "GET",
+                headers: {
+                    "Accept": "text/html",
+                    "User-Agent": "Chrome"
+                }
+            }
+            request(options, function(error, response, responseBody) {
+
+                if (error) {
+                    return
+                }
+    
+                $ = cheerio.load(responseBody)
+        
+                var links = $(".image a.link")
+    
+                var urls = new Array(links.length).fill(0).map((v, i) => links.eq(i).attr("href"))
+                if (!urls.length) {
+                    return
+                }
+                let imageChannel = main.channels.cache.get('732201985889140767');
+                const searchEmbed = new MessageEmbed()
+                .setImage( urls[Math.floor(Math.random() * urls.length)])
+                .setColor(0xE5C918)
+                .setFooter(whosend)
+                .setTimestamp();
+                imageChannel.send(searchEmbed);
+            })
         }
     }
 });
