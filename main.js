@@ -73,9 +73,9 @@ main.on('message', message =>{
         if(!args.length){
             return message.channel.send("What image you want me to search?");
         } else {
-            let eventArgs = args.slice(0).join(" ");
+            let searchArgs = args.slice(0).join(" ");
             var options = {
-                url: "http://results.dogpile.com/serp?qc=images&q=pinterest" + searchthis,
+                url: "http://results.dogpile.com/serp?qc=images&q=pinterest" + searchArgs,
                 method: "GET",
                 headers: {
                     "Accept": "text/html",
@@ -100,7 +100,7 @@ main.on('message', message =>{
                 const searchEmbed = new MessageEmbed()
                 .setImage( urls[Math.floor(Math.random() * urls.length)])
                 .setColor(0xE5C918)
-                .setFooter(whosend)
+                .setFooter(message.author.username)
                 .setTimestamp();
                 imageChannel.send(searchEmbed);
             })
