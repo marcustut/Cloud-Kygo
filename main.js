@@ -73,6 +73,7 @@ main.on('message', message =>{
         if(!args.length){
             return message.channel.send("What image you want me to search?");
         } else {
+            message.delete();
             let searchArgs = args.slice(0).join(" ");
             var options = {
                 url: "http://results.dogpile.com/serp?qc=images&q=pinterest" + searchArgs,
