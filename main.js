@@ -43,7 +43,7 @@ main.on('message', message =>{
             return message.channel.send("What poll you want to create?");
         } else {
             let pollWhosend = message.author.username;
-            let pollArgs = args.slice(0).join(" ");
+            let pollArgs = args.slice(1).join(" ");
             let pollChannel = message.mentions.channels.first()
             if(!pollChannel){
                 return message.channel.send("I believe that channel did not exist")
@@ -60,7 +60,7 @@ main.on('message', message =>{
             return message.channel.send("What event you want to broadcast?");
         } else {
             let eventWhosend = message.author.username;
-            let eventArgs = args.slice(0).join(" ");
+            let eventArgs = args.slice(1).join(" ");
             let eventChannel = message.mentions.channels.first()
             if(!eventChannel){
                 return message.channel.send("I believe that channel did not exist")
