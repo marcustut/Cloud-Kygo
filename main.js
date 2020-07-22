@@ -23,8 +23,8 @@ const poll = require('./commands/poll')
 const event = require('./commands/event')
 
 // Getting Environment Variables
-const PREFIX = process.env.d_PREFIX;
-const discordToken = process.env.d_TOKEN;
+const PREFIX = process.env.PREFIX;
+const discordToken = process.env.token;
 
 main.once('ready', () =>{
     console.log("KYGO ARE ONLINE!");
